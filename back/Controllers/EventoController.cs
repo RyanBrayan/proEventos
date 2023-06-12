@@ -1,3 +1,4 @@
+using back.Data;
 using back.models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,42 +9,24 @@ namespace back.Controllers;
 public class EventoController : ControllerBase
 {
 
-    public IEnumerable<Evento> _evento = new Evento []{
-            new Evento(){
-                EventoId = 1,
-                Tema = "Angular 11",
-                Local =  "Sao  paulo",
-                Lote ="1º Lote",
-                QtdPessoas = 250,
-                DataEvento = DateTime.Now.AddDays(2).ToString()
-            },
-            new Evento(){
-                EventoId = 2,
-                Tema = "Angular 123",
-                Local =  "Osascp",
-                Lote ="3º Lote",
-                QtdPessoas = 200,
-                DataEvento = DateTime.Now.AddDays(2).ToString()
-            }
-        };
 
-
-    public EventoController()
+    private readonly DataContext _context;
+    public EventoController(DataContext context)
     {
-        
+        _context = context;
     }
 
     [HttpGet]
     public IEnumerable<Evento> Get()
     {
-        return _evento;
+        return _context.eventos;
     }
 
-    
+
     [HttpGet("{id}")]
-    public IEnumerable<Evento> GetById(int id)
+    public Evento GetById(int id)
     {
-        
-        return _evento.Where(evento => evento.EventoId == id);
+
+        return _context.eventos.FirstOrDefault(evento => evento.EventoId == id);
     }
 }
