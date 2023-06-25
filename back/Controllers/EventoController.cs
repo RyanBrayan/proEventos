@@ -29,4 +29,18 @@ public class EventoController : ControllerBase
 
         return _context.eventos.FirstOrDefault(evento => evento.EventoId == id);
     }
+    
+    [HttpPost]
+    public IActionResult Post(Evento evento){
+        var eventoA = new Evento();
+        eventoA.DataEvento = evento.DataEvento;
+        eventoA.ImageUrl = evento.ImageUrl;
+        eventoA.Local = evento.Local;
+        eventoA.QtdPessoas = evento.QtdPessoas;
+        eventoA.Tema = evento.Tema;
+        _context.eventos.Add(eventoA);
+        _context.SaveChanges();
+        
+        return Ok();
+    }
 }
